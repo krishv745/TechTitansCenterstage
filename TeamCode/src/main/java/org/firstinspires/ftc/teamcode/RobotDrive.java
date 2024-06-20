@@ -13,6 +13,7 @@ public class RobotDrive {
     public DcMotorEx initDcMotor(HardwareMap hardwareMap, String name, DcMotor.Direction dir) {
         DcMotorEx motor = hardwareMap.get(DcMotorEx.class, name);
         motor.setDirection(dir);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //model to show drift later
         return motor;
     }
 
