@@ -46,27 +46,23 @@ public class ROteleop extends LinearOpMode {
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double flPower = 0.5 * (y + x + rx) / denominator;
-            double blPower = 0.5 * (y - x + rx) / denominator;
-            double brPower = 0.5 * (y + x - rx) / denominator;
-            double frPower = 0.5 * (y - x - rx) / denominator;
+            double flPower = (y + x + rx) / denominator;
+            double blPower = (y - x + rx) / denominator;
+            double brPower = (y + x - rx) / denominator;
+            double frPower = (y - x - rx) / denominator;
             double inPower = 0.0;
 
             if (gamepad1.a) {
-                if (!isOn) {
-                    inPower = 0.8;
-                    isOn = true;
-                } else {
-                    inPower = 0.0;
-                    isOn = false;
-                }
+                intake.setPower(1);
+            } else if (gamepad1.b) {
+                intake.setPower(0);
             }
 
             fl.setPower(flPower);
             bl.setPower(blPower);
             br.setPower(brPower);
             fr.setPower(frPower);
-            intake.setPower(inPower);
+
             TimeUnit.MILLISECONDS.sleep(200);
         }
     }
