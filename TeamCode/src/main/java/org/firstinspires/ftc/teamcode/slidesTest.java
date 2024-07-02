@@ -19,14 +19,14 @@ public class slidesTest extends LinearOpMode{
         if (isStopRequested()) return;
         while (opModeIsActive()) {
             if (gamepad1.dpad_up) {
-                ls1Pos += 0.2;
-                ls2Pos += 0.2;
+                ls1Pos += 0.1;
+                ls2Pos += 0.1;
                 ls1.setPosition(ls1Pos);
                 ls2.setPosition(ls2Pos);
                 TimeUnit.MILLISECONDS.sleep(150);
             } else if (gamepad1.dpad_down) {
-                ls1Pos -= 0.2;
-                ls2Pos -= 0.2;
+                ls1Pos -= 0.1;
+                ls2Pos -= 0.1;
                 ls1.setPosition(ls1Pos);
                 ls2.setPosition(ls2Pos);
                 TimeUnit.MILLISECONDS.sleep(150);
