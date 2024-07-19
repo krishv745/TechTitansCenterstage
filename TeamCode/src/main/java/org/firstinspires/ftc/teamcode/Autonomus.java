@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 @Autonomous(name = "Autonomus", group = "Autonomous")
 public class Autonomus extends LinearOpMode {
 
-
+    // SERVOS
     public class Transfer {
         private Servo servoTransfer;
 
@@ -255,6 +255,54 @@ public class Autonomus extends LinearOpMode {
         }
     }
 
+    // DRIVE MOTORS
+
+    public class Intake {
+        private DcMotorEx intake;
+
+        public Intake(HardwareMap hardwareMap) {
+            intake = hardwareMap.get(DcMotorEx.class, "m");
+            intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            intake.setDirection(DcMotorEx.Direction.FORWARD);
+        }
+
+        public class intakeOn implements Action {
+            @Override
+            public boolean run (@NotNull TelemetryPacket packet) {
+                intake.setPower(1.0);
+                return false;
+            }
+        }
+
+        public Action intakeOn() {
+            return new intakeOn();
+        }
+
+        public class intakeOff implements Action {
+            @Override
+            public boolean run (@NotNull TelemetryPacket packet) {
+                intake.setPower(0.0);
+                return false;
+            }
+        }
+
+        public Action intakeOff() {
+            return new intakeOff();
+        }
+
+        public class intakeReverse implements Action {
+            @Override
+            public boolean run (@NotNull TelemetryPacket packet) {
+                intake.setPower(-1.0);
+                return false;
+            }
+        }
+
+        public Action intakeReverse() {
+            return new intakeReverse();
+        }
+    }
+
     @Override
     public void runOpMode() {
         MecanumDrive drive = new MecanumDrive(); // not figured out yet
@@ -265,6 +313,7 @@ public class Autonomus extends LinearOpMode {
         servoSLT slideLeftTop = new servoSLT(hardwareMap);
         servoSRT slideRightTop = new servoSRT(hardwareMap);
         servoSRB slideRightBottom = new servoSRB(hardwareMap);
+        Intake intake = new Intake(hardwareMap);
     }
 
 }
