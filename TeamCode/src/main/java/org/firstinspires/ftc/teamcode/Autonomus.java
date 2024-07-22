@@ -255,6 +255,38 @@ public class Autonomus extends LinearOpMode {
         }
     }
 
+    public class servoFlight {
+        private Servo servoFlight; // for plane launcher
+
+        public servoFlight(HardwareMap hardwareMap) {
+            servoFlight = hardwareMap.get(Servo.class, "Flight");
+        }
+
+        public class flightUp implements Action {
+            @Override
+            public boolean run(@NotNull TelemetryPacket packet) {
+                servoFlight.setPosition(0.7);
+                return false;
+            }
+        }
+
+        public Action flightUp() {
+            return new flightUp();
+        }
+
+        public class flightDown implements Action {
+            @Override
+            public boolean run(@NotNull TelemetryPacket packet) {
+                servoFlight.setPosition(0.3);
+                return false;
+            }
+        }
+
+        public Action flightDown() {
+            return new flightDown();
+        }
+    }
+
     // DRIVE MOTORS
 
     public class Intake {
@@ -313,6 +345,7 @@ public class Autonomus extends LinearOpMode {
         servoSLT slideLeftTop = new servoSLT(hardwareMap);
         servoSRT slideRightTop = new servoSRT(hardwareMap);
         servoSRB slideRightBottom = new servoSRB(hardwareMap);
+        servoFlight flightLauncher = new servoFlight(hardwareMap);
         Intake intake = new Intake(hardwareMap);
 
         //vision - apriltags, outputs position
@@ -354,6 +387,8 @@ public class Autonomus extends LinearOpMode {
         trajectoryActionCloseOut = drive.actionBuilder(drive.pose)
             .strafeTo(new Vector2d(48, 12))
             .build();
+
+        Actions.runBlocking(flightLauncher.flightDown()); // ON INIT
     }
 
 }
