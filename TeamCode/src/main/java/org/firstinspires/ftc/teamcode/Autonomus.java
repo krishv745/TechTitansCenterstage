@@ -293,7 +293,7 @@ public class Autonomus extends LinearOpMode {
         private DcMotorEx intake;
 
         public Intake(HardwareMap hardwareMap) {
-            intake = hardwareMap.get(DcMotorEx.class, "m");
+            intake = hardwareMap.get(DcMotorEx.class, "intake");
             intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             intake.setDirection(DcMotorEx.Direction.FORWARD);
         }

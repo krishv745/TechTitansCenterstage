@@ -25,11 +25,13 @@ public class Ateleop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
+        // DRIVETRAIN
         DcMotor fl = hardwareMap.dcMotor.get("fl"); //port 0 CH
         DcMotor bl = hardwareMap.dcMotor.get("bl"); //port 1 CH
         DcMotor br = hardwareMap.dcMotor.get("br"); //port 2 CH
         DcMotor fr = hardwareMap.dcMotor.get("fr"); //port 3 CH
-        DcMotor intake = hardwareMap.dcMotor.get("m"); //port 0 EH
+
+        DcMotor intake = hardwareMap.dcMotor.get("intake"); //port 0 EH
 
         DcMotor rr = hardwareMap.dcMotor.get("rr"); // rigging right, port 1 EH
         DcMotor rl = hardwareMap.dcMotor.get("rl"); // rigging left, port 2 EH
@@ -39,6 +41,20 @@ public class Ateleop extends LinearOpMode {
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Servos
+        Servo servoTransfer = hardwareMap.servo.get("transfer");
+        Servo servoHL = hardwareMap.servo.get("HookLeft");
+        Servo servoHR = hardwareMap.servo.get("HookRight");
+        Servo servoSLB = hardwareMap.servo.get("SlidesLeftBottom");
+        Servo servoSLT = hardwareMap.servo.get("SlidesLeftTop");
+        Servo servoSRT = hardwareMap.servo.get("SlidesRightTop");
+        Servo servoSRB = hardwareMap.servo.get("SlidesRightBottom"); // port 1 CH
+        Servo servoFlight = hardwareMap.servo.get("Flight");
+        Servo servoRR = hardwareMap.servo.get("RightR"); // port 0 CH
+        Servo servoRL = hardwareMap.servo.get("LeftR");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
