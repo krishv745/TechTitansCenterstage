@@ -389,6 +389,36 @@ public class Autonomus extends LinearOpMode {
             .build();
 
         Actions.runBlocking(flightLauncher.flightDown()); // ON INIT
+
+
+        while(!isStopRequested() && !opModeIsActive()) {
+            int position = visionOutputPosition;
+            telemetry.addData("Position during Init", position);
+            telemetry.update();
+        }
+        int startPosition = visionOutputPosition;
+        telemetry.addData("Starting Position", startPosition);
+        telemetry.update();
+        waitForStart();
+
+        if (isStopRequested()) return;
+
+        Action trajectoryActionChosen;
+        if (startPosition == 1) {
+            trajectoryActionChosen = trajectoryAction1;
+        } else if (startPosition == 2) {
+            trajectoryActionChosen = trajectoryAction2;
+        } else {
+            trajectoryActionChosen = trajectoryAction3;
+        }
+        
+        Actions.runBlocking(
+            new SequentialAction(
+                trajectoryActionChosen,
+                intake.intakeOn(),
+                trajectoryAction
+            )
+        );
     }
 
 }
