@@ -7,6 +7,18 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.concurrent.TimeUnit;
 
+/*
+NECESITIES - 
+Drivetrain - 4 motors
+Intake - 1 motor
+Rigging - 2 motors, 2 servos
+Slides - 4 servos
+Outtake - 2 servos
+Transfer - 1 servo
+Flight Launcher - 1 servo
+*/
+
+
 @TeleOp
 public class Ateleop extends LinearOpMode {
     @Override
