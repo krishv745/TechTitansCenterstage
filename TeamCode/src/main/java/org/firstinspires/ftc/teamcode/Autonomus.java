@@ -314,6 +314,46 @@ public class Autonomus extends LinearOpMode {
         servoSRT slideRightTop = new servoSRT(hardwareMap);
         servoSRB slideRightBottom = new servoSRB(hardwareMap);
         Intake intake = new Intake(hardwareMap);
+
+        //vision - apriltags, outputs position
+        int visionOutputPosition = 1;
+        Action trajectoryAction1;
+        Action trajectoryAction2;
+        Action trajectoryAction3;
+        Action trajectoryActionCloseOut; // strafes to an X and Y to get out of a potential partner’s way
+
+        // actionBuilder builds from the drive steps passed to it, 
+        // and .build(); is needed to build the trajectory
+        trajectoryAction1 = drive.actionBuilder(drive.pose)
+            .lineToYSplineHeading(33, Math.toRadians(0))
+            .waitSeconds(2)
+            .setTangent(Math.toRadians(90))
+            .lineToY(48)
+            .setTangent(Math.toRadians(0))
+            .lineToX(32)
+            .strafeTo(new Vector2d(44.5, 30))
+            .turn(Math.toRadians(180))
+            .lineToX(47.5)
+            .waitSeconds(3)
+            .build();
+        trajectoryAction2 = drive.actionBuilder(drive.pose)
+            .lineToY(37)
+            .setTangent(Math.toRadians(0))
+            .lineToX(18)
+            .waitSeconds(3)
+            .setTangent(Math.toRadians(0))
+            .lineToXSplineHeading(46, Math.toRadians(180))
+            .waitSeconds(3)
+            .build();
+        trajectoryAction3 = drive.actionBuilder(drive.pose)
+            .lineToYSplineHeading(33, Math.toRadians(180))
+            .waitSeconds(2)
+            .strafeTo(new Vector2d(46, 30))
+            .waitSeconds(3)
+            .build();
+        trajectoryActionCloseOut = drive.actionBuilder(drive.pose)
+            .strafeTo(new Vector2d(48, 12))
+            .build();
     }
 
 }
