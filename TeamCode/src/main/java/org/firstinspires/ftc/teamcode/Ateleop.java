@@ -31,6 +31,9 @@ public class Ateleop extends LinearOpMode {
         DcMotor fr = hardwareMap.dcMotor.get("fr"); //port 3 CH
         DcMotor intake = hardwareMap.dcMotor.get("m"); //port 0 EH
 
+        DcMotor rr = hardwareMap.dcMotor.get("rr"); // rigging right, port 1 EH
+        DcMotor rl = hardwareMap.dcMotor.get("rl"); // rigging left, port 2 EH
+
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
