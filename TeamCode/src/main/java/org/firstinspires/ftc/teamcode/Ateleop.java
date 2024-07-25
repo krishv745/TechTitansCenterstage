@@ -69,9 +69,42 @@ public class Ateleop extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y - gamepad1.right_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            double multiplier = 0.8; // allows for speed changes
+            double intakePower = 0.0;
+            boolean isGMPD1 = true;
+            if (gamepad1.left_bumper) {isGMPD1 = false;}
+
+            // button effects
+
+            // General buttons
+
+            // GMPD1 buttons
+            if (isGMPD1) {
+                // LT - speed changes
+                if (gamepad1.left_trigger >= 0.5) {
+                    multiplier = 1.0;
+                } else if (gamepad1.left_trigger > 0) {
+                    multiplier = 0.6;
+                }
+
+                // RT - reverse intake
+                if (gamepad1.right_trigger > 0.0) {
+                    intakePower = -1.0;
+                }
+
+                // RB - start intake
+                if (gamepad1.right_bumper) {
+                    intakePower = 0.0;
+                }
+
+                //
+            }
+
+            // GMPD2 buttons
+
+            double y = multiplier * (-gamepad1.left_stick_y - gamepad1.right_stick_y); // Remember, Y stick value is reversed
+            double x = multiplier * (gamepad1.left_stick_x * 1.1); // Counteract imperfect strafing
+            double rx = multiplier * gamepad1.right_stick_x;
 
 
             // Denominator is the largest motor power (absolute value) or 1
@@ -88,13 +121,7 @@ public class Ateleop extends LinearOpMode {
             br.setPower(brPower);
             fr.setPower(frPower);
 
-            if (gamepad1.right_bumper && !gamepad1.left_bumper) {
-                intake.setPower(1);
-            } else if (gamepad1.right_bumper && gamepad1.left_bumper) {
-                intake.setPower(-1);
-            } else {
-                intake.setPower(0);
-            }
+            intake.setPower(intakePower);
         }
     }
 }
