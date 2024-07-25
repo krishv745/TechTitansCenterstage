@@ -45,16 +45,16 @@ public class Ateleop extends LinearOpMode {
         rl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Servos
-        Servo servoTransfer = hardwareMap.servo.get("transfer");
-        Servo servoHL = hardwareMap.servo.get("HookLeft");
-        Servo servoHR = hardwareMap.servo.get("HookRight");
-        Servo servoSLB = hardwareMap.servo.get("SlidesLeftBottom");
-        Servo servoSLT = hardwareMap.servo.get("SlidesLeftTop");
-        Servo servoSRT = hardwareMap.servo.get("SlidesRightTop");
+        Servo servoTransfer = hardwareMap.servo.get("transfer"); // port 4 EH
+        Servo servoHL = hardwareMap.servo.get("HookLeft"); // port 3 EH
+        Servo servoHR = hardwareMap.servo.get("HookRight"); // port 3 CH
+        Servo servoSLB = hardwareMap.servo.get("SlidesLeftBottom"); // port 1 EH
+        Servo servoSLT = hardwareMap.servo.get("SlidesLeftTop"); // port 2 EH
+        Servo servoSRT = hardwareMap.servo.get("SlidesRightTop"); // port 2 CH
         Servo servoSRB = hardwareMap.servo.get("SlidesRightBottom"); // port 1 CH
-        Servo servoFlight = hardwareMap.servo.get("Flight");
+        Servo servoFlight = hardwareMap.servo.get("Flight"); // port 4 CH
         Servo servoRR = hardwareMap.servo.get("RightR"); // port 0 CH
-        Servo servoRL = hardwareMap.servo.get("LeftR");
+        Servo servoRL = hardwareMap.servo.get("LeftR"); // port 0 EH
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
@@ -71,15 +71,17 @@ public class Ateleop extends LinearOpMode {
         while (opModeIsActive()) {
             double multiplier = 0.8; // allows for speed changes
             double intakePower = 0.0;
-            boolean isGMPD1 = true;
-            if (gamepad1.left_bumper) {isGMPD1 = false;}
+
+            // engage hooks
+            servoHL.setPosition(0.1);
+            servoHR.setPosition(0.1);            
 
             // button effects
 
             // General buttons
 
             // GMPD1 buttons
-            if (isGMPD1) {
+            if (!gamepad1.left_bumper) {
                 // LT - speed changes
                 if (gamepad1.left_trigger >= 0.5) {
                     multiplier = 1.0;
@@ -97,7 +99,24 @@ public class Ateleop extends LinearOpMode {
                     intakePower = 0.0;
                 }
 
-                //
+                // B - right hook disengage
+                if (gamepad1.b) {
+                    servoHR.setPosition(0.9);
+                    TimeUnit.MILLISECONDS.sleep(250);
+                }
+
+                // X - left hook disengage
+                if (gamepad1.x) {
+                    servoHL.setPosition(0.9);
+                    TimeUnit.MILLISECONDS.sleep(250);
+                }
+
+                // Y - right hook disengage
+                if (gamepad1.y) {
+                    servoHR.setPosition(0.9);
+                    servoHL.setPosition(0.9);
+                    TimeUnit.MILLISECONDS.sleep(250);
+                }
             }
 
             // GMPD2 buttons
