@@ -63,6 +63,10 @@ public class Ateleop extends LinearOpMode {
         fr.setDirection(DcMotorSimple.Direction.REVERSE);
         br.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        
+        double currentHeight;
+        boolean isUp = false;
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -72,13 +76,44 @@ public class Ateleop extends LinearOpMode {
             double multiplier = 0.8; // allows for speed changes
             double intakePower = 0.0;
 
+
             // engage hooks
             servoHL.setPosition(0.1);
-            servoHR.setPosition(0.1);            
+            servoHR.setPosition(0.1);
+            servoFlight.setPosition(0.1);
 
             // button effects
 
             // General buttons
+            // B - right hook disengage
+            if (gamepad1.b || gamepad2.b) {
+                servoHR.setPosition(0.9);
+                TimeUnit.MILLISECONDS.sleep(250);
+            }
+
+            // X - left hook disengage
+            if (gamepad1.x || gamepad2.x) {
+                servoHL.setPosition(0.9);
+                TimeUnit.MILLISECONDS.sleep(250);
+            }
+
+            // Y - right hook disengage
+            if (gamepad1.y || gamepad2.y) {
+                servoHR.setPosition(0.9);
+                servoHL.setPosition(0.9);
+                TimeUnit.MILLISECONDS.sleep(250);
+            }
+
+            // Start - rigging up/down (toggle)
+            if (gamepad1.start || gamepad2.start) {
+
+            }
+
+            // Back - flight
+            if (gamepad1.back || gamepad2.back) {
+                servoFlight.setPosition(0.5);
+                TimeUnit.MILLISECONDS.sleep(250);
+            }
 
             // GMPD1 buttons
             if (!gamepad1.left_bumper) {
@@ -98,28 +133,27 @@ public class Ateleop extends LinearOpMode {
                 if (gamepad1.right_bumper) {
                     intakePower = 0.0;
                 }
-
-                // B - right hook disengage
-                if (gamepad1.b) {
-                    servoHR.setPosition(0.9);
-                    TimeUnit.MILLISECONDS.sleep(250);
-                }
-
-                // X - left hook disengage
-                if (gamepad1.x) {
-                    servoHL.setPosition(0.9);
-                    TimeUnit.MILLISECONDS.sleep(250);
-                }
-
-                // Y - right hook disengage
-                if (gamepad1.y) {
-                    servoHR.setPosition(0.9);
-                    servoHL.setPosition(0.9);
-                    TimeUnit.MILLISECONDS.sleep(250);
-                }
             }
 
             // GMPD2 buttons
+            if (!gamepad2.left_bumper) {
+                // RB - raise transfer to previous height (toggle)
+                if (gamepad2.right_bumper) {
+                    if (isUp) {
+                        // set currentHeight to current servo height
+                        servoTransfer.setPosition(0.1);
+                    } else {
+                        if (currentHeight > 0) {
+                            servoTransfer.setPosition(currentHeight);
+                        } else {
+                            servoTransfer.setPosition(0.5);
+                        }
+                    }
+                    isUp = !isUp;
+                }
+
+                // DPAD 
+            }
 
             double y = multiplier * (-gamepad1.left_stick_y - gamepad1.right_stick_y); // Remember, Y stick value is reversed
             double x = multiplier * (gamepad1.left_stick_x * 1.1); // Counteract imperfect strafing
