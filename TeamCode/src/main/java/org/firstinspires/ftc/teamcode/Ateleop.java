@@ -162,8 +162,14 @@ public class Ateleop extends LinearOpMode {
                 if (gamepad2.dpad_down && height > 0.0) {
                     height -= 0.1;
                     TimeUnit.MILLISECONDS.sleep(250);
+                } else if (gamepad2.dpad_left && height > 0.0) {
+                    height -= 0.05;
+                    TimeUnit.MILLISECONDS.sleep(250);
                 } else if (gamepad2.dpad_up && height < 1.0) {
                     height += 0.1;
+                    TimeUnit.MILLISECONDS.sleep(250);
+                } else if (gamepad2.dpad_right && height < 1.0) {
+                    height += 0.05;
                     TimeUnit.MILLISECONDS.sleep(250);
                 }
 
