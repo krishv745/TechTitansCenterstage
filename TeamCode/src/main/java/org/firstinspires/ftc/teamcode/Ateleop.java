@@ -26,15 +26,18 @@ public class Ateleop extends LinearOpMode {
         // Declare our motors
         // Make sure your ID's match your configuration
         // DRIVETRAIN
+
         DcMotor fl = hardwareMap.dcMotor.get("fl"); //port 3 EH - RED
         DcMotor bl = hardwareMap.dcMotor.get("bl"); //port 1 CH - YELLOW
         DcMotor br = hardwareMap.dcMotor.get("br"); //port 0 CH - ORANGE
         DcMotor fr = hardwareMap.dcMotor.get("fr"); //port 0 EH - BLUE
 
+
         DcMotor intake = hardwareMap.dcMotor.get("intake"); //port 1 EH - PURPLE
 
         DcMotor rr = hardwareMap.dcMotor.get("rr"); // rigging right, port 3 CH - DARK GREEN
         DcMotor rl = hardwareMap.dcMotor.get("rl"); // rigging left, port 2 CH - LIGHT GREEN
+
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
