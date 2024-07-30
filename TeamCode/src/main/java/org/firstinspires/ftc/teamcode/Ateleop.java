@@ -64,7 +64,8 @@ public class Ateleop extends LinearOpMode {
         br.setDirection(DcMotorSimple.Direction.REVERSE);
 
         
-        double currentHeight;
+        double currentHeight, height;
+        height = 0.1;
         boolean isUp = false;
 
         waitForStart();
@@ -141,18 +142,31 @@ public class Ateleop extends LinearOpMode {
                 if (gamepad2.right_bumper) {
                     if (isUp) {
                         // set currentHeight to current servo height
-                        servoTransfer.setPosition(0.1);
+                        currentHeight = height;
+                        height = 0.1;
                     } else {
                         if (currentHeight > 0) {
-                            servoTransfer.setPosition(currentHeight);
+                            height = currentHeight;
                         } else {
-                            servoTransfer.setPosition(0.5);
+                            height = 0.5;
                         }
                     }
                     isUp = !isUp;
+                    TimeUnit.MILLISECONDS.sleep(250);
                 }
 
                 // DPAD 
+                if (gamepad2.dpad_down && height > 0.0) {
+                    height -= 0.1;
+                    TimeUnit.MILLISECONDS.sleep(250);
+                } else if (gamepad2.dpad_up && height < 1.0) {
+                    height += 0.1;
+                    TimeUnit.MILLISECONDS.sleep(250);
+                }
+
+
+                servoTransfer.setPosition(height);
+                
             }
 
             double y = multiplier * (-gamepad1.left_stick_y - gamepad1.right_stick_y); // Remember, Y stick value is reversed
